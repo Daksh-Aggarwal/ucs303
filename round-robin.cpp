@@ -31,21 +31,16 @@ void rr(process arr[], int n, int tq)
     queue<int> readyq;
 
     sort(arr, arr + n, compTasks);
+    
     // add initial task so that array is not empty
-    for (int i = 0; i < n; i++)
-    {
-        if (curtime < arr[0].arrival)
-        {
-            curtime += tq;
-        }
-        if (curtime >= arr[0].arrival)
-        {
-            // cout << "Added initial task with pid " << i + 1 << endl;
-            readyq.push(arr[i].pid);
-            break;
-        }
-    }
-    int k = 0;
+    // ensure current time starts at first arrival
+    if (curtime < arr[0].arrival)
+        curtime = arr[0].arrival;
+    
+    // add first process to ready queue
+    readyq.push(arr[0].pid);
+    
+    int k = 0;   // because process 0 is already considered
     int tPID;
     while (!readyq.empty())
     {
